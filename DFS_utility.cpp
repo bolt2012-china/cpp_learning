@@ -16,55 +16,48 @@ stack<point> s;
 
 int main()
 {
-    int path[100][100]={4}; //¼ÇÂ¼¶¥µãÁÚ½Ó±ßÊı
-
-    //¼ÇÂ¼»ù±¾ĞÅÏ¢
-    int board[100][100];//ÎªµØÍ¼
-    int memory[100][100];//¼ÇÂ¼ÊÇ·ñ×ß¹ı£¬DFS²»ÖØ¸´±éÀú
+    //è®°å½•åŸºæœ¬ä¿¡æ¯
+    int board[100][100]; //ä¸ºåœ°å›¾
+    int memory[100][100]; //è®°å½•æ˜¯å¦èµ°è¿‡ï¼ŒDFSä¸é‡å¤éå†
     int startx, starty, endx, endy, barrierx, barriery;
-    cout << "Çë°´Ë³ĞòÊäÈëÆğµãÎ»ÖÃ£¬ÖÕµãÎ»ÖÃ" << endl;
+    cout << "è¯·æŒ‰é¡ºåºè¾“å…¥èµ·ç‚¹ä½ç½®ï¼Œç»ˆç‚¹ä½ç½®" << endl;
     cin >> startx >> starty >> endx >> endy;
-    cout << "ÇëÊäÈëÕÏ°­µãÎ»ÖÃ£¬¿ÉÒÔÓĞ¶à¸ö£¬×¢ÒâºÏÀí" << endl;
+    cout << "è¯·è¾“å…¥éšœç¢ç‚¹ä½ç½®ï¼Œå¯ä»¥æœ‰å¤šä¸ªï¼Œæ³¨æ„åˆç†" << endl;
     while (cin >> barrierx >> barriery)
         board[barrierx][barriery] = 1;
-    int move_x[4]={-1,1,0,0}; //¼ÇÂ¼x·½ÏòÉÏµÄÒÆ¶¯£¬Ë³ĞòÎªÉÏÏÂ×óÓÒ
-    int move_y[4]={0,0,-1,1}; //¼ÇÂ¼y
+    int move_x[4]={-1,1,0,0}; //è®°å½•xæ–¹å‘ä¸Šçš„ç§»åŠ¨ï¼Œé¡ºåºä¸ºä¸Šä¸‹å·¦å³
+    int move_y[4]={0,0,-1,1}; //è®°å½•y
 
-    //DFS
-    point start;
-    start.x = startx;
-    start.y = starty;
-    start.step = 0;
-
-    point parent = start; //¼ÇÂ¼¸¸½Úµã
-
+    point start,end;
+    start.x = startx, start.y = starty, start.step = 0;
+    end.x = endx, end.y = endy;
     memory[startx][starty] = 1;
-    s.push(start);
 
+    stack<point> s;
+    s.push(start);
     while (!s.empty())
     {
-        int x = s.top().x, y = s.top().y, step = s.top().step;
-        point parent = s.top();
-        if (x == endx && y == endy)
+        point p = s.top();
+        if (p.x == end.x && p.y == end.y)
+            cout<<"æ­å–œåˆ°è¾¾ç»ˆç‚¹ï¼å…±èµ°äº†"<<p.step<<"æ­¥"<<endl;
+        bool flag = false;
+        int x=p.x, y=p.y, step=p.step;
+        for (int i = 0; i < 4; i++)
         {
-            cout << "¹§Ï²µ½´ïÖÕµã£¡Ò»¹²×ßÁË" << step << "²½" << endl;
-        }
-        else
-        {
-            for (int i=0; i<4; i++)
+            int nx = x+move_x[i];
+            int ny = y+move_y[i]; //è¿›è¡Œæ‰©å±•
+            if (0<=nx && nx<100 && 0<=ny && ny<100 && board[nx][ny]!=1 && memory[nx][ny]!=1)
             {
-                int nx = x+move_x[i];
-                int ny = y+move_y[i]; //½øĞĞÀ©Õ¹
-                if (0<=nx && nx<100 && 0<=ny && ny<100 && board[nx][ny]!=1 && memory[nx][ny]!=1)
-                {
-                    point temp;
-                    temp.x = nx, temp.y = ny;
-                    temp.step = s.top().step+1;
-                    s.push(temp); //À©Õ¹ÔªËØÈëÁĞ
-                    memory[nx][ny] = 1; //¼ÇÂ¼
-                }
+                point temp;
+                temp.x = nx, temp.y = ny;
+                temp.step = s.top().step+1;
+                s.push(temp); //æ‰©å±•å…ƒç´ å…¥åˆ—
+                memory[nx][ny] = 1; //è®°å½•
+                flag = true;
             }
-            s.pop(); //³öÕ»
         }
+        if (!flag) //è¿™ä¸€æ­¥æ˜¯å¿…è¦çš„ï¼Œflagè®°å½•æ˜¯å¦è¿˜æœ‰æœªè¢«è®¿é—®è¿‡çš„èŠ‚ç‚¹
+            // è‹¥ç›´æ¥popï¼Œæ°¸è¿œä¸ä¼šåˆ°è¾¾ç»ˆç‚¹ï¼Œå› ä¸ºä¼šåå¤æ·»åŠ åŒä¸€ä¸ªï¼Œæœ€åæ ˆä¼šå…¨éƒ¨æ¸…ç©º
+            s.pop();
     }
 }
