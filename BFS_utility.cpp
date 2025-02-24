@@ -53,7 +53,7 @@ int main()
             {
                 int nx = x+move_x[i];
                 int ny = y+move_y[i]; //进行扩展
-                if (0<=nx && nx<100 && 0<=ny && ny<100 && board[nx][ny]!=1 && memory[nx][ny]!=0)
+                if (0<=nx && nx<100 && 0<=ny && ny<100 && board[nx][ny]!=1 && memory[nx][ny]!=1)
                 {
                     point temp;
                     temp.x = nx, temp.y = ny;
