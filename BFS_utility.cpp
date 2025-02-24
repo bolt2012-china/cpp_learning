@@ -2,8 +2,8 @@
 // Created by bolt on 25-2-24.
 //
 /*
- * Ë¼Â·ÊÇ¶ÔÊÖÔªËØÈëÁĞ£¬ÆäÀ©Õ¹ÔªËØÈëÁĞ£¬È»ºó¶ÓÊ×ÔªËØ³öÁĞ
- * ¹ã¶È±éÀúÖ±µ½ÖÕµã
+ * æ€è·¯æ˜¯å¯¹æ‰‹å…ƒç´ å…¥åˆ—ï¼Œå…¶æ‰©å±•å…ƒç´ å…¥åˆ—ï¼Œç„¶åé˜Ÿé¦–å…ƒç´ å‡ºåˆ—
+ * å¹¿åº¦éå†ç›´åˆ°ç»ˆç‚¹
  */
 #include <queue>
 #include <stdlib.h>
@@ -18,19 +18,21 @@ struct point
     int step;
 };
 
-queue<point> q;//´æ´¢¶ÓÁĞµã¼°ÆäÀ©Õ¹
+queue<point> q;//å­˜å‚¨é˜Ÿåˆ—ç‚¹åŠå…¶æ‰©å±•
 
 int main()
 {
-    //¼ÇÂ¼»ù±¾ĞÅÏ¢
-    int board[100][100];//ÎªµØÍ¼
-    int memory[100][100];//¼ÇÂ¼ÊÇ·ñ×ß¹ı£¬BFS²»ÖØ¸´±éÀú
+    //è®°å½•åŸºæœ¬ä¿¡æ¯
+    int board[100][100];//ä¸ºåœ°å›¾
+    int memory[100][100];//è®°å½•æ˜¯å¦èµ°è¿‡ï¼ŒBFSä¸é‡å¤éå†
     int startx, starty, endx, endy, barrierx, barriery;
-    cout << "Çë°´Ë³ĞòÊäÈëÆğµãÎ»ÖÃ£¬ÖÕµãÎ»ÖÃÓëÕÏ°­µãÎ»ÖÃ" << endl;
-    cin >> startx >> starty >> endx >> endy >> barrierx >> barriery;
-    board[barrierx][barriery] = 1;
-    int move_x[4]={-1,1,0,0}; //¼ÇÂ¼x·½ÏòÉÏµÄÒÆ¶¯£¬Ë³ĞòÎªÉÏÏÂ×óÓÒ
-    int move_y[4]={0,0,-1,1}; //¼ÇÂ¼y
+    cout << "è¯·æŒ‰é¡ºåºè¾“å…¥èµ·ç‚¹ä½ç½®ï¼Œç»ˆç‚¹ä½ç½®" << endl;
+    cin >> startx >> starty >> endx >> endy;
+    cout << "è¯·è¾“å…¥éšœç¢ç‚¹ä½ç½®ï¼Œå¯ä»¥æœ‰å¤šä¸ªï¼Œæ³¨æ„åˆç†" << endl;
+    while (cin >> barrierx >> barriery)
+        board[barrierx][barriery] = 1;
+    int move_x[4]={-1,1,0,0}; //è®°å½•xæ–¹å‘ä¸Šçš„ç§»åŠ¨ï¼Œé¡ºåºä¸ºä¸Šä¸‹å·¦å³
+    int move_y[4]={0,0,-1,1}; //è®°å½•y
 
     //BFS
     point start;
@@ -39,29 +41,28 @@ int main()
     start.step = 0;
 
     memory[startx][starty] = 1;
-    q.push(start); //ÆğÊ¼Î»ÖÃÈë¶Ó
+    q.push(start); //èµ·å§‹ä½ç½®å…¥é˜Ÿ
     while (!q.empty())
     {
-        int x = q.front().x, y = q.front().y, step=q.front().step; //È¡³ö¶ÓÊ×ÔªËØ
+        int x = q.front().x, y = q.front().y, step=q.front().step; //å–å‡ºé˜Ÿé¦–å…ƒç´ 
         if (x == endx && y == endy)
-            cout<<"¹§Ï²µ½´ïÖÕµã£¡¹²×ßÁË"<<step<<"²½"<<endl;
+            cout<<"æ­å–œåˆ°è¾¾ç»ˆç‚¹ï¼å…±èµ°äº†"<<step<<"æ­¥"<<endl;
         else
         {
             for (int i = 0; i < 4; i++)
             {
                 int nx = x+move_x[i];
-                int ny = y+move_y[i]; //½øĞĞÀ©Õ¹
+                int ny = y+move_y[i]; //è¿›è¡Œæ‰©å±•
                 if (0<=nx && nx<100 && 0<=ny && ny<100 && board[nx][ny]!=1 && memory[nx][ny]!=0)
                 {
                     point temp;
                     temp.x = nx, temp.y = ny;
                     temp.step = q.front().step+1;
-                    q.push(temp); //À©Õ¹ÔªËØÈëÁĞ
-                    memory[nx][ny] = 1; //¼ÇÂ¼
+                    q.push(temp); //æ‰©å±•å…ƒç´ å…¥åˆ—
+                    memory[nx][ny] = 1; //è®°å½•
                 }
             }
         }
-        q.pop(); //ÍØÕ¹Íê±Ï£¬¶ÓÊ×ÔªËØ³ö¶Ó
+        q.pop(); //æ‹“å±•å®Œæ¯•ï¼Œé˜Ÿé¦–å…ƒç´ å‡ºé˜Ÿ
     }
 }
-
