@@ -1,25 +1,26 @@
 #include <iostream>
+#include "game.h"
+#include "game.cpp"
+using namespace std;
 
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 int main() {
-    // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the
-    // <b>lang</b> variable name to see how CLion can help you rename it.
-    auto lang = "C++";
-    std::cout << "Hello and welcome to " << lang << "!\n";
-
-    for (int i = 1; i <= 5; i++) {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code.
-        // We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/>
-        // breakpoint for you, but you can always add more by pressing
-        // <shortcut actionId="ToggleLineBreakpoint"/>.
-        std::cout << "i = " << i << std::endl;
+  int n;
+  cin >> n;
+  long long cur_code = 1;
+  int cur_p = 1;
+  for (int i = 0; i < n; ++i, cur_p = 3 - cur_p) {
+    int x, y;
+    cin >> x >> y;
+    cur_code = play(cur_code, cur_p, x, y);
+    cout << cur_code << endl;
+    print(cur_code);
+    cout << endl;
+    int winner = check_winner(cur_code);
+    if (winner) {
+      cout << "Player" << winner << " wins!" << endl;
+      return 0;
     }
-
-    return 0;
+  }
+  cout << "Draw." << endl;
+  return 0;
 }
-
-// TIP See CLion help at <a
-// href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>.
-//  Also, you can try interactive lessons for CLion by selecting
-//  'Help | Learn IDE Features' from the main menu.
