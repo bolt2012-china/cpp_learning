@@ -1,17 +1,35 @@
 #include <iostream>
 #include <vector>
-#include <set>
+using namespace std;
 
-using namespace::std;
-int main(){
-    vector<int> v;
-    for(int i=0;i<10;i++)
+//bool match(int x1, int x2) { return ((x1 + 10) ^ 0xaaa) > ((x2 + 10) ^ 0xaaa); }
+bool match(int n, int m) {
+  return n>m;
+}
+
+int main() {
+  int n,a=0;
+  vector<int> v;
+  cin >> n;
+  while (cin >> a)
+  {
+    v.push_back(a);
+  }
+  int low=0, high=v.size()-1;
+  int temp;
+  while (low<high)
+  {
+    if (match(v[low], v[high]))
+      high--;
+    else
     {
-        v.push_back(i);
-        v.push_back(i);
+      temp=v[low];
+      v[low]=v[high];
+      v[high]=temp;
     }
-    set<int> s(v.begin(),v.end());
-    multiset<int> ms(v.begin(),v.end());
-    cout<<s.size() << " " <<ms.size()<<endl;
-    return 0;
+    low++;
+    high=v.size()-1;
+  }
+
+  cout << v[0] << " " << v[1] << " " << v[2]  << endl;
 }
